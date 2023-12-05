@@ -1,0 +1,103 @@
+<html>
+<head>
+  
+</head>
+  <body>
+    <h1>ThreeJS Annotation Test with glTF</h1>
+    
+  </body>
+</html>
+<script>
+let camera, scene, renderer,controls;
+
+function viewGeometry(geometry) {
+  const material = new THREE.MeshPhongMaterial({
+    color: 0xffffff,
+    flatShading: true,
+    vertexColors: THREE.VertexColors,
+    wireframe: false
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+}
+
+function initThreeJS(domelement,verts,meshurls) {
+    scene = new THREE.Scene();
+    minz=Number.MAX_VALUE
+    maxz=Number.MIN_VALUE
+    miny=Number.MAX_VALUE
+    maxy=Number.MIN_VALUE
+    minx=Number.MAX_VALUE
+    maxx=Number.MIN_VALUE
+	vertarray=[]
+    console.log(verts)
+    var svgShape = new THREE.Shape();
+    first=true
+    for(vert of verts){
+        if(first){
+            svgShape.moveTo(vert["x"], vert["y"]);
+           first=false
+        }else{
+            svgShape.lineTo(vert["x"], vert["y"]);
+        }
+        vertarray.push(vert["x"])
+        vertarray.push(vert["y"])
+        vertarray.push(vert["z"])
+        if(vert["z"]>maxz){
+            maxz=vert["z"]
+        }
+        if(vert["z"]<minz){
+            minz=vert["z"]
+        }
+        if(vert["y"]>maxy){
+            maxy=vert["y"]
+        }
+        if(vert["y"]<miny){
+            miny=vert["y"]
+        }
+        if(vert["x"]>maxx){
+            maxy=vert["x"]
+        }
+        if(vert["x"]<minx){
+            miny=vert["x"]
+        }
+    }
+    if(meshurls.length>0){
+        var loader = new THREE.PLYLoader();
+        loader.load(meshurls[0], viewGeometry);
+    }
+    camera = new THREE.PerspectiveCamera(90,window.innerWidth / window.innerHeight, 0.1, 150 );
+    scene.add(new THREE.AmbientLight(0x222222));
+    var light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(20, 20, 0);
+    scene.add(light);
+    var axesHelper = new THREE.AxesHelper( Math.max(maxx, maxy, maxz)*4 );
+    scene.add( axesHelper );
+    console.log("Depth: "+(maxz-minz))
+    var extrudedGeometry = new THREE.ExtrudeGeometry(svgShape, {depth: maxz-minz, bevelEnabled: false});
+    extrudedGeometry.computeBoundingBox()
+    centervec=new THREE.Vector3()
+    extrudedGeometry.boundingBox.getCenter(centervec)
+    console.log(centervec)
+    const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe:true } );
+    const mesh = new THREE.Mesh( extrudedGeometry, material );
+    scene.add( mesh );
+    renderer = new THREE.WebGLRenderer( { antialias: false } );
+	renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( 480, 500 );
+    document.getElementById(domelement).appendChild( renderer.domElement );
+	controls = new THREE.OrbitControls( camera, renderer.domElement );
+    controls.target.set( centervec.x,centervec.y,centervec.z );
+    camera.position.x= centervec.x
+    camera.position.y= centervec.y
+    camera.position.z = centervec.z+10;
+    controls.maxDistance= Math.max(maxx, maxy, maxz)*5
+    controls.update();
+    animate()
+}
+
+function animate() {
+    requestAnimationFrame( animate );
+    controls.update();
+    renderer.render( scene, camera );
+}</script>
