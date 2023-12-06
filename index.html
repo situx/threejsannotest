@@ -175,7 +175,7 @@ function initThreeJS(domelement,verts,meshurls) {
     const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe:true } );
     const mesh = new THREE.Mesh( extrudedGeometry, material );
     scene.add( mesh );
-	addPointMarker(scene,[0.25,0.25,0.25])
+	addPointMarker(scene,[0.5,0.5,0.5])
     renderer = new THREE.WebGLRenderer( { antialias: false } );
 	renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( 480, 500 );
