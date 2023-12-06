@@ -127,6 +127,7 @@ function initThreeJS(domelement,verts,meshurls) {
     document.getElementById(domelement).appendChild( renderer.domElement );
 	document.getElementById(domelement).addEventListener('click', function(event){
 	  var bounds = canvas_model.getBoundingClientRect()
+	  console.log(bounds)
 	  mouse.x = ( (event.clientX - bounds.left) / canvas_model.clientWidth ) * 2 - 1;
 	  mouse.y = - ( (event.clientY - bounds.top) / canvas_model.clientHeight ) * 2 + 1;
 	  raycaster.setFromCamera( mouse, camera );
