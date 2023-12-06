@@ -126,10 +126,10 @@ function initThreeJS(domelement,verts,meshurls) {
     renderer.setSize( 480, 500 );
     document.getElementById(domelement).appendChild( renderer.domElement );
 	document.getElementById(domelement).addEventListener('click', function(event){
-	  var bounds = canvas_model.getBoundingClientRect()
+	  var bounds = document.getElementById(domelement).getBoundingClientRect()
 	  console.log(bounds)
-	  mouse.x = ( (event.clientX - bounds.left) / canvas_model.clientWidth ) * 2 - 1;
-	  mouse.y = - ( (event.clientY - bounds.top) / canvas_model.clientHeight ) * 2 + 1;
+	  mouse.x = ( (event.clientX - bounds.left) / document.getElementById(domelement).clientWidth ) * 2 - 1;
+	  mouse.y = - ( (event.clientY - bounds.top) / document.getElementById(domelement).clientHeight ) * 2 + 1;
 	  raycaster.setFromCamera( mouse, camera );
 	  var intersects = raycaster.intersectObjects(scene.children, true);
 	  if (intersects.length > 0) {
