@@ -94,15 +94,16 @@ function initThreeJS(domelement,verts,meshurls) {
             miny=vert["x"]
         }
     }
+	sword=null
     if(meshurls.length>0){
         var loader = new THREE.GLTFLoader();
         loader.load(meshurls[0], function ( gltf )
-{
-    sword = gltf.scene;  // sword 3D object is loaded
-    sword.scale.set(200, 200, 200);
-    sword.position.y = 4;
-    scene.add(sword);
-});
+		{
+			sword = gltf.scene;  // sword 3D object is loaded
+			sword.scale.set(200, 200, 200);
+			sword.position.y = 4;
+			scene.add(sword);
+		});
     }
     camera = new THREE.PerspectiveCamera(90,window.innerWidth / window.innerHeight, 0.1, 150 );
     scene.add(new THREE.AmbientLight(0x222222));
@@ -124,6 +125,16 @@ function initThreeJS(domelement,verts,meshurls) {
 	renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( 480, 500 );
     document.getElementById(domelement).appendChild( renderer.domElement );
+	document.getElementById(domelement).addEventListener('click', function(event){
+	  var bounds = canvas_model.getBoundingClientRect()
+	  mouse.x = ( (event.clientX - bounds.left) / canvas_model.clientWidth ) * 2 - 1;
+	  mouse.y = - ( (event.clientY - bounds.top) / canvas_model.clientHeight ) * 2 + 1;
+	  raycaster.setFromCamera( mouse, camera );
+	  var intersects = raycaster.intersectObjects(scene.children, true);
+	  if (intersects.length > 0) {
+		 console.log("INTERSECTIONNNNNN")
+	  }
+	}, false)
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
     controls.target.set( centervec.x,centervec.y,centervec.z );
     camera.position.x= centervec.x
