@@ -9,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/PLYLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/threex-domevents@1.0.0/threex.domevents.min.js"></script>
 
 </head>
   <body>
@@ -50,6 +51,11 @@ function viewGeometry(geometry) {
   });
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
+  mesh.on('click', function()
+{
+    // response to click...
+    mesh.scale.x *= 2;
+});
 }
 
 function initThreeJS(domelement,verts,meshurls) {
