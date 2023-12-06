@@ -53,6 +53,29 @@ function viewGeometry(geometry) {
   scene.add(mesh);
 }
 
+sceneMeshes=[]
+
+function onDocumentMouseDown( event ) {
+    const mouse = {
+        x: (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
+        y: -(event.clientY / renderer.domElement.clientHeight) * 2 + 1,
+    };
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObjects(sceneMeshes, false);
+
+    const color = Math.random() * 0xffffff;
+
+    if (intersects.length > 0) {
+        let n = new THREE.Vector3();
+        n.copy(intersects[0].face.normal);
+        n.transformDirection(intersects[0].object.matrixWorld);
+        const selectedObject = intersects[0];
+        alert('this is a Drink');
+        
+    }
+}
+
 function initThreeJS(domelement,verts,meshurls) {
     scene = new THREE.Scene();
     minz=Number.MAX_VALUE
@@ -96,20 +119,26 @@ function initThreeJS(domelement,verts,meshurls) {
     }
     if(meshurls.length>0){
         var loader = new THREE.GLTFLoader();
-        loader.load(meshurls[0], function ( gltf )
-{
-    sword = gltf.scene;  // sword 3D object is loaded
-    sword.scale.set(200, 200, 200);
-    sword.position.y = 4;
-	sword.on('click', function()
-{
-	console.log("MY MESH ON CLICK")
-    // response to click...
-    sword.scale.x *= 2;
+        loader.load(meshurls[0], function (gltf) {
+    gltf.scene.traverse(function (child) {
+        if (child.isMesh) {
+            let m = child;
+            m.receiveShadow = true;
+            m.castShadow = true;
+            m.material.flatShading = true;
+            sceneMeshes.push(m);
+        }
+        if (child.isLight) {
+            let l = child;
+            l.castShadow = true;
+            l.shadow.bias = -0.003;
+            l.shadow.mapSize.width = 2048;
+            l.shadow.mapSize.height = 2048;
+        }
+    });
+    scene.add(gltf.scene);
 
-	console.log(mesh.scale.x)
-});
-    scene.add(sword);
+    sceneMeshes.push(gltf.scene);
 });
     }
     camera = new THREE.PerspectiveCamera(90,window.innerWidth / window.innerHeight, 0.1, 150 );
