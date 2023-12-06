@@ -19,6 +19,25 @@
   </body>
 </html>
 <script>
+
+function parseWKTStringToJSON(wktstring){
+    wktstring=wktstring.substring(wktstring.lastIndexOf('(')+1,wktstring.lastIndexOf(')')-1)
+    resjson=[]
+    for(coordset of wktstring.split(",")){
+        curobject={}
+        coords=coordset.trim().split(" ")
+        console.log(coordset)
+        console.log(coords)
+        if(coords.length==3){
+            resjson.push({"x":parseFloat(coords[0]),"y":parseFloat(coords[1]),"z":parseFloat(coords[2])})
+        }else{
+            resjson.push({"x":parseFloat(coords[0]),"y":parseFloat(coords[1])})
+        }
+    }
+    console.log(resjson)
+    return resjson
+}
+
 let camera, scene, renderer,controls;
 
 function viewGeometry(geometry) {
