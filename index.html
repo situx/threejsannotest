@@ -134,9 +134,9 @@ function initThreeJS(domelement,verts,meshurls) {
 	  mouse.x = ( (event.clientX - bounds.left) / document.getElementById(domelement).clientWidth ) * 2 - 1;
 	  mouse.y = - ( (event.clientY - bounds.top) / document.getElementById(domelement).clientHeight ) * 2 + 1;
 	  raycaster.setFromCamera( mouse, camera );
-	  var intersects = raycaster.intersectObjects(mesh, true);
+	  var intersects = raycaster.intersectObjects(scene.children, true);
 	  if (intersects.length > 0) {
-		document.getElementById("annocontent").html("Clicked on point in annotation: "+mouse.x+" "+mouse.y)
+		 document.getElementById("annocontent").html("Clicked on point in annotation: "+mouse.x+" "+mouse.y)
 		 console.log("INTERSECTIONNNNNN")
 	  }
 	}, false)
