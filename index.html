@@ -104,7 +104,12 @@ function initThreeJS(domelement,verts,meshurls) {
 			//sword.scale.set(200, 200, 200);
 			sword.position.x = 0;
 			sword.position.y = 0;
+			console.log(sword)
+			if("annotations" in sword){
+				console.log(sword["annotations"])
+			}
 			scene.add(sword);
+			
 		});
     }
 	var raycaster = new THREE.Raycaster();
