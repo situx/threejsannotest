@@ -101,8 +101,9 @@ function initThreeJS(domelement,verts,meshurls) {
         loader.load(meshurls[0], function ( gltf )
 		{
 			sword = gltf.scene;  // sword 3D object is loaded
-			sword.scale.set(200, 200, 200);
-			sword.position.y = 4;
+			//sword.scale.set(200, 200, 200);
+			sword.position.x = 0;
+			sword.position.y = 0;
 			scene.add(sword);
 		});
     }
