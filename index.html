@@ -14,6 +14,7 @@
 </head>
   <body>
     <h1>ThreeJS Annotation Test with glTF</h1>
+   <span id="annocontent"></span>
    <div id="threejs" class="threejscontainer" style="max-width:485px;max-height:500px">
 </div> 
   </body>
@@ -133,8 +134,9 @@ function initThreeJS(domelement,verts,meshurls) {
 	  mouse.x = ( (event.clientX - bounds.left) / document.getElementById(domelement).clientWidth ) * 2 - 1;
 	  mouse.y = - ( (event.clientY - bounds.top) / document.getElementById(domelement).clientHeight ) * 2 + 1;
 	  raycaster.setFromCamera( mouse, camera );
-	  var intersects = raycaster.intersectObjects(scene.children, true);
+	  var intersects = raycaster.intersectObjects(mesh, true);
 	  if (intersects.length > 0) {
+		document.getElementById("annocontent").html("Clicked on point in annotation: "+mouse.x+" "+mouse.y)
 		 console.log("INTERSECTIONNNNNN")
 	  }
 	}, false)
