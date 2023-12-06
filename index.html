@@ -1,6 +1,13 @@
 <html>
 <head>
-  
+<script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/TrackballControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/PLYLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+<div id="threejs" class="threejscontainer" style="max-width:485px;max-height:500px">
+</div>
+<script>$(document).ready(function(){initThreeJS('threejs',parseWKTStringToJSON("POLYGON Z ((11.914378496415974 14.386346805085239 4.228275299072266, 7.128430444339905 14.260676340056541 4.228275299072266, 6.809366923512812 19.915864141095675 4.228275299072266, 11.488962055423293 19.915864141095675 4.228275299072266, 11.914378496415974 14.386346805085239 6.769923210144043, 7.128430444339905 14.260676340056541 6.769923210144043, 6.809366923512812 19.915864141095675 6.769923210144043, 11.488962055423293 19.915864141095675 6.769923210144043, 11.914378496415974 14.386346805085239 4.228275299072266))"),["waterbottle.gltf"])})</script> 
 </head>
   <body>
     <h1>ThreeJS Annotation Test with glTF</h1>
@@ -63,7 +70,7 @@ function initThreeJS(domelement,verts,meshurls) {
         }
     }
     if(meshurls.length>0){
-        var loader = new THREE.PLYLoader();
+        var loader = new THREE.GLTFLoader();
         loader.load(meshurls[0], viewGeometry);
     }
     camera = new THREE.PerspectiveCamera(90,window.innerWidth / window.innerHeight, 0.1, 150 );
