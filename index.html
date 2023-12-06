@@ -51,11 +51,6 @@ function viewGeometry(geometry) {
   });
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
-  mesh.on('click', function()
-{
-    // response to click...
-    mesh.scale.x *= 2;
-});
 }
 
 function initThreeJS(domelement,verts,meshurls) {
@@ -106,6 +101,14 @@ function initThreeJS(domelement,verts,meshurls) {
     sword = gltf.scene;  // sword 3D object is loaded
     sword.scale.set(200, 200, 200);
     sword.position.y = 4;
+	sword.on('click', function()
+{
+	console.log("MY MESH ON CLICK")
+    // response to click...
+    sword.scale.x *= 2;
+
+	console.log(mesh.scale.x)
+});
     scene.add(sword);
 });
     }
