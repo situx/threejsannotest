@@ -14,6 +14,7 @@
 </head>
   <body>
     <h1>ThreeJS Annotation Test with glTF</h1>
+	<canvas id="number" width="64" height="64"></canvas>
    <span id="annocontent"></span>
    <div id="threejs" class="threejscontainer" style="max-width:485px;max-height:500px">
 </div> 
@@ -22,7 +23,30 @@
 <script>$(document).ready(function(){initThreeJS('threejs',parseWKTStringToJSON("POLYGON Z ((11.914378496415974 14.386346805085239 4.228275299072266, 7.128430444339905 14.260676340056541 4.228275299072266, 6.809366923512812 19.915864141095675 4.228275299072266, 11.488962055423293 19.915864141095675 4.228275299072266, 11.914378496415974 14.386346805085239 6.769923210144043, 7.128430444339905 14.260676340056541 6.769923210144043, 6.809366923512812 19.915864141095675 6.769923210144043, 11.488962055423293 19.915864141095675 6.769923210144043, 11.914378496415974 14.386346805085239 4.228275299072266))"),["HS1185.gltf"])})</script> 
 
 <script>
+const canvas = document.getElementById('number');
+const ctx = canvas.getContext('2d');
+const x = 32;
+const y = 32;
+const radius = 30;
+const startAngle = 0;
+const endAngle = Math.PI * 2;
 
+ctx.fillStyle = 'rgb(0, 0, 0)';
+ctx.beginPath();
+ctx.arc(x, y, radius, startAngle, endAngle);
+ctx.fill();
+
+ctx.strokeStyle = 'rgb(255, 255, 255)';
+ctx.lineWidth = 3;
+ctx.beginPath();
+ctx.arc(x, y, radius, startAngle, endAngle);
+ctx.stroke();
+
+ctx.fillStyle = 'rgb(255, 255, 255)';
+ctx.font = '32px sans-serif';
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.fillText('1', x, y);
 function parseWKTStringToJSON(wktstring){
     wktstring=wktstring.substring(wktstring.lastIndexOf('(')+1,wktstring.lastIndexOf(')')-1)
     resjson=[]
@@ -56,7 +80,7 @@ function viewGeometry(geometry) {
 
 function addPointMarker(scene,position){
 	const numberTexture = new THREE.CanvasTexture(
-		0
+		 document.querySelector('#number')
 	);
 
 	const spriteMaterial = new THREE.SpriteMaterial({
@@ -69,7 +93,7 @@ function addPointMarker(scene,position){
 
 	sprite = new THREE.Sprite(spriteMaterial);
 	sprite.position.set(position[0], position[1], position[2]);
-	sprite.scale.set(35, 35, 1);
+	sprite.scale.set(1, 1, 1);
 
 	scene.add(sprite);
 	return scene
