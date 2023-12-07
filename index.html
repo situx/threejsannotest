@@ -110,6 +110,7 @@ function initThreeJS(domelement,verts,meshurls) {
     minx=Number.MAX_VALUE
     maxx=Number.MIN_VALUE
 	vertarray=[]
+	annotations=new THREE.Group();
     console.log(verts)
     var svgShape = new THREE.Shape();
     first=true
@@ -211,7 +212,8 @@ function initThreeJS(domelement,verts,meshurls) {
     console.log(centervec)
     const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe:true } );
     const mesh = new THREE.Mesh( extrudedGeometry, material );
-    scene.add( mesh );
+	annotations.add(mesh)
+	scene.add(annotations)
 	addPointMarker(scene,[0.5,0.5,0.5])
     renderer = new THREE.WebGLRenderer( { antialias: false } );
 	renderer.setPixelRatio( window.devicePixelRatio );
