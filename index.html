@@ -111,6 +111,7 @@ function initThreeJS(domelement,verts,meshurls) {
     maxx=Number.MIN_VALUE
 	vertarray=[]
 	annotations=new THREE.Group();
+	objects=new THREE.Group();
     console.log(verts)
     var svgShape = new THREE.Shape();
     first=true
@@ -149,7 +150,6 @@ function initThreeJS(domelement,verts,meshurls) {
 	const geometryFolder = gui.addFolder("Mesh");
 	geometryFolder.open();
 	const lightingFolder = geometryFolder.addFolder("Lighting");
-
 	const geometryF = geometryFolder.addFolder("Geometry");
 	geometryF.open();
 	box=null
@@ -166,7 +166,7 @@ function initThreeJS(domelement,verts,meshurls) {
 			if("annotations" in box){
 				console.log(box["annotations"])
 			}
-			scene.add(box);
+
 
 
 			const rotationFolder = geometryF.addFolder("Rotation");
@@ -180,6 +180,8 @@ function initThreeJS(domelement,verts,meshurls) {
 			scaleFolder.add(box.scale, 'z', 0, 2).name("Z")
 
 			geometryF.close();
+			objects.add(box)
+			scene.add(objects);
 
 		});
     }
