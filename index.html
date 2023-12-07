@@ -143,7 +143,8 @@ function initThreeJS(domelement,verts,meshurls) {
         }
     }
 
-	const gui = new dat.GUI()
+	const gui = new dat.GUI({autoPlace: true})
+	datGui.domElement.id="gui"
 	const geometryFolder = gui.addFolder("Mesh");
 	geometryFolder.open();
 	const lightingFolder = geometryFolder.addFolder("Lighting");
