@@ -52,6 +52,20 @@ ctx.font = '32px sans-serif';
 ctx.textAlign = 'center';
 ctx.textBaseline = 'middle';
 ctx.fillText('1', x, y);
+
+function parseWebAnnotations(webannotations,scene){
+	for(anno in webannotations){
+		if("target" in webannotations[anno]){
+			if("selector" in webannotations[anno]["target"] && webannotations[anno]["target"]["selector"]["type"]=="WktSelector"){
+				parseWKTStringToJSON(webannotations[anno]["target"]["selector"]["value"])
+			}else if("selector" in webannotations[anno]["target"] && webannotations[anno]["target"]["selector"]["type"]=="MeshSelector"){
+				
+			}
+		}
+	}
+	
+}
+
 function parseWKTStringToJSON(wktstring){
     wktstring=wktstring.substring(wktstring.lastIndexOf('(')+1,wktstring.lastIndexOf(')')-1)
     resjson=[]
@@ -105,19 +119,8 @@ function addPointMarker(scene,position,annotations){
 	return annotations
 }
 
-function initThreeJS(domelement,verts,meshurls) {
-    scene = new THREE.Scene();
-    minz=Number.MAX_VALUE
-    maxz=Number.MIN_VALUE
-    miny=Number.MAX_VALUE
-    maxy=Number.MIN_VALUE
-    minx=Number.MAX_VALUE
-    maxx=Number.MIN_VALUE
-	vertarray=[]
-	annotations=new THREE.Group();
-	objects=new THREE.Group();
-    console.log(verts)
-    var svgShape = new THREE.Shape();
+function prepareAnnotationFromJSON(verts,annotations){
+	var svgShape = new THREE.Shape();
     first=true
     for(vert of verts){
         if(first){
@@ -148,7 +151,31 @@ function initThreeJS(domelement,verts,meshurls) {
             miny=vert["x"]
         }
     }
+	var extrudedGeometry = new THREE.ExtrudeGeometry(svgShape, {depth: maxz-minz, bevelEnabled: false});
+    extrudedGeometry.computeBoundingBox()
+    centervec=new THREE.Vector3()
+    extrudedGeometry.boundingBox.getCenter(centervec)
+    console.log(centervec)
+    const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe:true } );
+    const mesh = new THREE.Mesh( extrudedGeometry, material );
+	annotations.add(mesh)
+	return annotations
+}
 
+function initThreeJS(domelement,verts,meshurls) {
+    scene = new THREE.Scene();
+    minz=Number.MAX_VALUE
+    maxz=Number.MIN_VALUE
+    miny=Number.MAX_VALUE
+    maxy=Number.MIN_VALUE
+    minx=Number.MAX_VALUE
+    maxx=Number.MIN_VALUE
+	vertarray=[]
+	annotations=new THREE.Group();
+	objects=new THREE.Group();
+    console.log(verts)
+    first=true
+	annotations=prepareAnnotationFromJSON(verts,annotations)  
 	const gui = new dat.GUI({autoPlace: true})
 	gui.domElement.id="gui"
 	const geometryFolder = gui.addFolder("Mesh");
@@ -240,15 +267,6 @@ function initThreeJS(domelement,verts,meshurls) {
 	var axesHelper = new THREE.AxesHelper( Math.max(maxx, maxy, maxz)*4 );
     scene.add( axesHelper );
     console.log("Depth: "+(maxz-minz))
-    var extrudedGeometry = new THREE.ExtrudeGeometry(svgShape, {depth: maxz-minz, bevelEnabled: false});
-    extrudedGeometry.computeBoundingBox()
-    centervec=new THREE.Vector3()
-    extrudedGeometry.boundingBox.getCenter(centervec)
-    console.log(centervec)
-    const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe:true } );
-    const mesh = new THREE.Mesh( extrudedGeometry, material );
-	annotations.add(mesh)
-	//allobjects.add(mesh)
 	scene.add(annotations)
 	annotations=addPointMarker(scene,[0.5,0.5,0.5],annotations)
     renderer = new THREE.WebGLRenderer( { antialias: false } );
