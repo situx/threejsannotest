@@ -253,7 +253,7 @@ function initThreeJS(domelement,verts,meshurls) {
 	annotations=addPointMarker(scene,[0.5,0.5,0.5],annotations)
     renderer = new THREE.WebGLRenderer( { antialias: false } );
 	renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( 480, 500 );
+    //renderer.setSize( 480, 500 );
     document.getElementById(domelement).appendChild( renderer.domElement );
 	document.getElementById("threejsnav").appendChild( gui.domElement );
 	document.getElementById(domelement).addEventListener('click', function(event){
