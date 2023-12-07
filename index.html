@@ -174,9 +174,9 @@ function initThreeJS(domelement,verts,meshurls) {
 			}
 
 			geometryF.close();
-			objects.add(box)
+			//objects.add(box)
 			allobjects.add(box)
-			scene.add(objects);
+			scene.add(allobjects);
 			const rotationFolder = geometryF.addFolder("Rotation");
 			rotationFolder.add(allobjects.rotation, 'x', 0, Math.PI).name("X")
 			rotationFolder.add(allobjects.rotation, 'y', 0, Math.PI).name("Y")
