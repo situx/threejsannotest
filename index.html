@@ -80,7 +80,7 @@ function viewGeometry(geometry) {
 }
 
 
-function addPointMarker(scene,position){
+function addPointMarker(scene,position,annotations){
 	const numberTexture = new THREE.CanvasTexture(
 		 document.querySelector('#number')
 	);
@@ -96,9 +96,9 @@ function addPointMarker(scene,position){
 	sprite = new THREE.Sprite(spriteMaterial);
 	sprite.position.set(position[0], position[1], position[2]);
 	sprite.scale.set(1, 1, 1);
-
-	scene.add(sprite);
-	return scene
+	annotations.add(sprite)
+	//scene.add(sprite);
+	return annotations
 }
 
 function initThreeJS(domelement,verts,meshurls) {
@@ -207,7 +207,7 @@ function initThreeJS(domelement,verts,meshurls) {
 	annotations.add(mesh)
 	//allobjects.add(mesh)
 	scene.add(annotations)
-	addPointMarker(scene,[0.5,0.5,0.5])
+	annotations=addPointMarker(scene,[0.5,0.5,0.5],annotations)
     renderer = new THREE.WebGLRenderer( { antialias: false } );
 	renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( 480, 500 );
