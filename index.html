@@ -15,7 +15,7 @@
 </head>
   <body>
     <h1>ThreeJS Annotation Test with glTF</h1>
-	<canvas id="number" width="64" height="64" style="visibility:hidden"></canvas>
+	<canvas id="number" width="64" height="64" style="display:none"></canvas>
    <span id="annocontent"></span>
    <div style="display: flex;">
    <div id="threejs" class="threejscontainer" style="flex: 1;max-width:100%;max-height:90%"></div>
@@ -253,7 +253,7 @@ function initThreeJS(domelement,verts,meshurls) {
 	annotations=addPointMarker(scene,[0.5,0.5,0.5],annotations)
     renderer = new THREE.WebGLRenderer( { antialias: false } );
 	renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize(0.8*window.innerWidth, window.innerHeight);
+    renderer.setSize(0.8*window.innerWidth, 0.8*window.innerHeight);
     document.getElementById(domelement).appendChild( renderer.domElement );
 	document.getElementById("threejsnav").appendChild( gui.domElement );
 	document.getElementById(domelement).addEventListener('click', function(event){
