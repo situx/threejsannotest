@@ -246,7 +246,8 @@ function initThreeJS(domelement,verts,meshurls) {
 	}
 	const cameraFolder = geometryFolder.addFolder("Camera");
 	cameraFolder.add (camera, 'fov', 1, 180).name('Zoom').onChange(updateCamera);
-    animate()
+    gui.add(annotations, 'visible')
+	animate()
 }
 
 function animate() {
