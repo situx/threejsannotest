@@ -53,17 +53,32 @@ ctx.textAlign = 'center';
 ctx.textBaseline = 'middle';
 ctx.fillText('1', x, y);
 
-function parseWebAnnotations(webannotations,scene){
+function parseWebAnnotations(webannotations,annotations,mesh){
 	for(anno in webannotations){
 		if("target" in webannotations[anno]){
 			if("selector" in webannotations[anno]["target"] && webannotations[anno]["target"]["selector"]["type"]=="WktSelector"){
-				parseWKTStringToJSON(webannotations[anno]["target"]["selector"]["value"])
+				if("POINT" in webannotations[anno]["target"]["selector"]["value"]){
+					addPointMarker(parseWKTStringToJSON(webannotations[anno]["target"]["selector"]["value"])[0],annotations)
+				}else{
+					prepareAnnotationFromJSON(parseWKTStringToJSON(webannotations[anno]["target"]["selector"]["value"]),annotations)
+				}			
 			}else if("selector" in webannotations[anno]["target"] && webannotations[anno]["target"]["selector"]["type"]=="MeshSelector"){
-				
+				theindex=webannotations[anno]["target"]["selector"]["value"]
+				lookeduppoint=lookUpPointFromIndex(mesh,theindex)
+				if(lookeduppoint!=null){
+					addPointMarker(lookeduppoint,annotations)
+				}
 			}
 		}
 	}
-	
+}
+
+function lookUpPointFromIndex(mesh,theindex){
+	indexlength=mesh["geometry"]["attributes"]["position"]["array"].length/3
+	if(theindex<indexlength){
+		return {"x":mesh["geometry"]["attributes"]["position"]["array"][theindex*3],"y":mesh["geometry"]["attributes"]["position"]["array"][(theindex*3)+1],"z":mesh["geometry"]["attributes"]["position"]["array"][(theindex*3)+2]}
+	}
+	return null
 }
 
 function parseWKTStringToJSON(wktstring){
@@ -86,19 +101,8 @@ function parseWKTStringToJSON(wktstring){
 
 let camera, scene, renderer,controls;
 
-function viewGeometry(geometry) {
-  const material = new THREE.MeshPhongMaterial({
-    color: 0xffffff,
-    flatShading: true,
-    vertexColors: THREE.VertexColors,
-    wireframe: false
-  });
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-}
 
-
-function addPointMarker(scene,position,annotations){
+function addPointMarker(position,annotations){
 	const numberTexture = new THREE.CanvasTexture(
 		 document.querySelector('#number')
 	);
@@ -112,10 +116,9 @@ function addPointMarker(scene,position,annotations){
 	});
 
 	sprite = new THREE.Sprite(spriteMaterial);
-	sprite.position.set(position[0], position[1], position[2]);
+	sprite.position.set(position["x"], position["y"], position["z"]);
 	sprite.scale.set(1, 1, 1);
 	annotations.add(sprite)
-	//scene.add(sprite);
 	return annotations
 }
 
@@ -268,7 +271,7 @@ function initThreeJS(domelement,verts,meshurls) {
     scene.add( axesHelper );
     console.log("Depth: "+(maxz-minz))
 	scene.add(annotations)
-	annotations=addPointMarker(scene,[0.5,0.5,0.5],annotations)
+	annotations=addPointMarker({"x":0.5,"y":0.5,"z":0.5},annotations)
     renderer = new THREE.WebGLRenderer( { antialias: false } );
 	renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize(0.8*window.innerWidth, 0.8*window.innerHeight);
