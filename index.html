@@ -142,8 +142,20 @@ function initThreeJS(domelement,verts,meshurls) {
             miny=vert["x"]
         }
     }
+
+	const gui = new dat.GUI()
+	const geometryFolder = gui.addFolder("Mesh");
+	geometryFolder.open();
+	const lightingFolder = geometryFolder.addFolder("Lighting");
+
+	lightingFolder.add(light.position, "x").min(-5).max(5).step(0.01).name("X Position")
+	lightingFolder.add(light.position, "y").min(-5).max(5).step(0.01).name("Y Position")
+	lightingFolder.add(light.position, "z").min(-5).max(5).step(0.01).name("Z Position")
+
+	const geometryF = geometryFolder.addFolder("Geometry");
+	geometryF.open();
 	box=null
-    if(meshurls.length>0){
+	if(meshurls.length>0){
         var loader = new THREE.GLTFLoader();
         loader.load(meshurls[0], function ( gltf )
 		{
@@ -157,7 +169,30 @@ function initThreeJS(domelement,verts,meshurls) {
 				console.log(box["annotations"])
 			}
 			scene.add(box);
-			
+
+
+			const rotationFolder = geometryF.addFolder("Rotation");
+			rotationFolder.add(box.rotation, 'x', 0, Math.PI).name("X")
+			rotationFolder.add(box.rotation, 'y', 0, Math.PI).name("Y")
+			rotationFolder.add(box.rotation, 'z', 0, Math.PI).name("Z")
+
+			const scaleFolder = geometryF.addFolder("Scale");
+			scaleFolder.add(box.scale, 'x', 0, 2).name("X")
+			scaleFolder.add(box.scale, 'y', 0, 2).name("Y")
+			scaleFolder.add(box.scale, 'z', 0, 2).name("Z")
+
+			geometryF.close();
+
+			const meshFolder = geometryFolder.addFolder("Material")
+			const materialParams = {
+				materialColor: box.material.color.getHex(),
+			};
+			meshFolder.add(box.material, 'wireframe');
+			meshFolder
+				.addColor(materialParams, 'materialColor')
+				.onChange((value) => box.material.color.set(value));
+
+
 		});
     }
 	var raycaster = new THREE.Raycaster();
@@ -204,39 +239,6 @@ function initThreeJS(domelement,verts,meshurls) {
     camera.position.z = centervec.z+10;
     controls.maxDistance= Math.max(maxx, maxy, maxz)*5
     controls.update();
-	const gui = new dat.GUI()
-	const geometryFolder = gui.addFolder("Mesh");
-	geometryFolder.open();
-	const lightingFolder = geometryFolder.addFolder("Lighting");
-
-	lightingFolder.add(light.position, "x").min(-5).max(5).step(0.01).name("X Position")
-	lightingFolder.add(light.position, "y").min(-5).max(5).step(0.01).name("Y Position")
-	lightingFolder.add(light.position, "z").min(-5).max(5).step(0.01).name("Z Position")
-
-	const geometryF = geometryFolder.addFolder("Geometry");
-	geometryF.open();
-
-	const rotationFolder = geometryF.addFolder("Rotation");
-	rotationFolder.add(box.rotation, 'x', 0, Math.PI).name("X")
-	rotationFolder.add(box.rotation, 'y', 0, Math.PI).name("Y")
-	rotationFolder.add(box.rotation, 'z', 0, Math.PI).name("Z")
-
-	const scaleFolder = geometryF.addFolder("Scale");
-	scaleFolder.add(box.scale, 'x', 0, 2).name("X")
-	scaleFolder.add(box.scale, 'y', 0, 2).name("Y")
-	scaleFolder.add(box.scale, 'z', 0, 2).name("Z")
-
-	geometryF.close();
-
-	const meshFolder = geometryFolder.addFolder("Material")
-	const materialParams = {
-		materialColor: box.material.color.getHex(),
-	};
-	meshFolder.add(box.material, 'wireframe');
-	meshFolder
-		.addColor(materialParams, 'materialColor')
-		.onChange((value) => box.material.color.set(value));
-
 	const updateCamera = () => {
 		camera.updateProjectionMatrix();
 	}
