@@ -112,11 +112,8 @@ function initThreeJS(domelement,verts,meshurls) {
     minx=Number.MAX_VALUE
     maxx=Number.MIN_VALUE
 	vertarray=[]
-	allobjects=new THREE.Group();
 	annotations=new THREE.Group();
 	objects=new THREE.Group();
-	//allobjects.add(objects)
-	//allobjects.add(annotations)
     console.log(verts)
     var svgShape = new THREE.Shape();
     first=true
@@ -174,18 +171,17 @@ function initThreeJS(domelement,verts,meshurls) {
 			}
 
 			geometryF.close();
-			//objects.add(box)
-			allobjects.add(box)
-			scene.add(allobjects);
+			objects.add(box)
+			scene.add(objects);
 			const rotationFolder = geometryF.addFolder("Rotation");
-			rotationFolder.add(allobjects.rotation.x, 'x', 0, Math.PI).name("X")
-			rotationFolder.add(allobjects.rotation.y, 'y', 0, Math.PI).name("Y")
-			rotationFolder.add(allobjects.rotation.z, 'z', 0, Math.PI).name("Z")
+			rotationFolder.add(objects.rotation.x, 'x', 0, Math.PI).name("X")
+			rotationFolder.add(objects.rotation.y, 'y', 0, Math.PI).name("Y")
+			rotationFolder.add(objects.rotation.z, 'z', 0, Math.PI).name("Z")
 
 			const scaleFolder = geometryF.addFolder("Scale");
-			scaleFolder.add(allobjects.scale.x, 'x', 0, 2).name("X")
-			scaleFolder.add(allobjects.scale.y, 'y', 0, 2).name("Y")
-			scaleFolder.add(allobjects.scale.z, 'z', 0, 2).name("Z")
+			scaleFolder.add(objects.scale.x, 'x', 0, 2).name("X")
+			scaleFolder.add(objects.scale.y, 'y', 0, 2).name("Y")
+			scaleFolder.add(objects.scale.z, 'z', 0, 2).name("Z")
 		});
     }
 	var raycaster = new THREE.Raycaster();
