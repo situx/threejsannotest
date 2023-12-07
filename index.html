@@ -181,16 +181,6 @@ function initThreeJS(domelement,verts,meshurls) {
 
 			geometryF.close();
 
-			const meshFolder = geometryFolder.addFolder("Material")
-			const materialParams = {
-				materialColor: box.material.color.getHex(),
-			};
-			meshFolder.add(box.material, 'wireframe');
-			meshFolder
-				.addColor(materialParams, 'materialColor')
-				.onChange((value) => box.material.color.set(value));
-
-
 		});
     }
 	var raycaster = new THREE.Raycaster();
