@@ -174,14 +174,14 @@ function initThreeJS(domelement,verts,meshurls) {
 			objects.add(box)
 			scene.add(objects);
 			const rotationFolder = geometryF.addFolder("Rotation");
-			rotationFolder.add(objects.rotation.x, 'x', 0, Math.PI).name("X")
-			rotationFolder.add(objects.rotation.y, 'y', 0, Math.PI).name("Y")
-			rotationFolder.add(objects.rotation.z, 'z', 0, Math.PI).name("Z")
+			rotationFolder.add(objects.rotation, 'x', 0, Math.PI).name("X")
+			rotationFolder.add(objects.rotation, 'y', 0, Math.PI).name("Y")
+			rotationFolder.add(objects.rotation, 'z', 0, Math.PI).name("Z")
 
 			const scaleFolder = geometryF.addFolder("Scale");
-			scaleFolder.add(objects.scale.x, 'x', 0, 2).name("X")
-			scaleFolder.add(objects.scale.y, 'y', 0, 2).name("Y")
-			scaleFolder.add(objects.scale.z, 'z', 0, 2).name("Z")
+			scaleFolder.add(objects.scale, 'x', 0, 2).name("X")
+			scaleFolder.add(objects.scale, 'y', 0, 2).name("Y")
+			scaleFolder.add(objects.scale, 'z', 0, 2).name("Z")
 		});
     }
 	var raycaster = new THREE.Raycaster();
