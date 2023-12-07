@@ -155,15 +155,7 @@ function initThreeJS(domelement,verts,meshurls) {
 	const lightingFolder = geometryFolder.addFolder("Lighting");
 	const geometryF = geometryFolder.addFolder("Geometry");
 	geometryF.open();
-	const rotationFolder = geometryF.addFolder("Rotation");
-	rotationFolder.add(allobjects.rotation, 'x', 0, Math.PI).name("X")
-	rotationFolder.add(allobjects.rotation, 'y', 0, Math.PI).name("Y")
-	rotationFolder.add(allobjects.rotation, 'z', 0, Math.PI).name("Z")
 
-	const scaleFolder = geometryF.addFolder("Scale");
-	scaleFolder.add(allobjects.scale, 'x', 0, 2).name("X")
-	scaleFolder.add(allobjects.scale, 'y', 0, 2).name("Y")
-	scaleFolder.add(allobjects.scale, 'z', 0, 2).name("Z")
 	box=null
 	if(meshurls.length>0){
         var loader = new THREE.GLTFLoader();
@@ -179,14 +171,18 @@ function initThreeJS(domelement,verts,meshurls) {
 				console.log(box["annotations"])
 			}
 
-
-
-
-
 			geometryF.close();
 			objects.add(box)
 			scene.add(objects);
+			const rotationFolder = geometryF.addFolder("Rotation");
+			rotationFolder.add(allobjects.rotation, 'x', 0, Math.PI).name("X")
+			rotationFolder.add(allobjects.rotation, 'y', 0, Math.PI).name("Y")
+			rotationFolder.add(allobjects.rotation, 'z', 0, Math.PI).name("Z")
 
+			const scaleFolder = geometryF.addFolder("Scale");
+			scaleFolder.add(allobjects.scale, 'x', 0, 2).name("X")
+			scaleFolder.add(allobjects.scale, 'y', 0, 2).name("Y")
+			scaleFolder.add(allobjects.scale, 'z', 0, 2).name("Z")
 		});
     }
 	var raycaster = new THREE.Raycaster();
