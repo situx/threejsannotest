@@ -10,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/PLYLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/threex.domevents@1.0.1/threex.domevents.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
 
 </head>
   <body>
@@ -78,6 +79,7 @@ function viewGeometry(geometry) {
   scene.add(mesh);
 }
 
+
 function addPointMarker(scene,position){
 	const numberTexture = new THREE.CanvasTexture(
 		 document.querySelector('#number')
@@ -140,21 +142,21 @@ function initThreeJS(domelement,verts,meshurls) {
             miny=vert["x"]
         }
     }
-	sword=null
+	box=null
     if(meshurls.length>0){
         var loader = new THREE.GLTFLoader();
         loader.load(meshurls[0], function ( gltf )
 		{
-			sword = gltf.scene;  // sword 3D object is loaded
+			box = gltf.scene;  // sword 3D object is loaded
 			//sword.scale.set(200, 200, 200);
-			sword.position.x = 0;
-			sword.position.y = 0;
-			console.log(sword)
+			box.position.x = 0;
+			box.position.y = 0;
+			console.log(box)
 			//console.log(gltf)
-			if("annotations" in sword){
-				console.log(sword["annotations"])
+			if("annotations" in box){
+				console.log(box["annotations"])
 			}
-			scene.add(sword);
+			scene.add(box);
 			
 		});
     }
@@ -202,6 +204,44 @@ function initThreeJS(domelement,verts,meshurls) {
     camera.position.z = centervec.z+10;
     controls.maxDistance= Math.max(maxx, maxy, maxz)*5
     controls.update();
+	const gui = new dat.GUI()
+	const geometryFolder = gui.addFolder("Mesh");
+	geometryFolder.open();
+	const lightingFolder = geometryFolder.addFolder("Lighting");
+
+	lightingFolder.add(light.position, "x").min(-5).max(5).step(0.01).name("X Position")
+	lightingFolder.add(light.position, "y").min(-5).max(5).step(0.01).name("Y Position")
+	lightingFolder.add(light.position, "z").min(-5).max(5).step(0.01).name("Z Position")
+
+	const geometryF = geometryFolder.addFolder("Geometry");
+	geometryF.open();
+
+	const rotationFolder = geometryF.addFolder("Rotation");
+	rotationFolder.add(box.rotation, 'x', 0, Math.PI).name("X")
+	rotationFolder.add(box.rotation, 'y', 0, Math.PI).name("Y")
+	rotationFolder.add(box.rotation, 'z', 0, Math.PI).name("Z")
+
+	const scaleFolder = geometryF.addFolder("Scale");
+	scaleFolder.add(box.scale, 'x', 0, 2).name("X")
+	scaleFolder.add(box.scale, 'y', 0, 2).name("Y")
+	scaleFolder.add(box.scale, 'z', 0, 2).name("Z")
+
+	geometryF.close();
+
+	const meshFolder = geometryFolder.addFolder("Material")
+	const materialParams = {
+		materialColor: box.material.color.getHex(),
+	};
+	meshFolder.add(box.material, 'wireframe');
+	meshFolder
+		.addColor(materialParams, 'materialColor')
+		.onChange((value) => box.material.color.set(value));
+
+	const updateCamera = () => {
+		camera.updateProjectionMatrix();
+	}
+	const cameraFolder = geometryFolder.addFolder("Camera");
+	cameraFolder.add (camera, 'fov', 1, 180).name('Zoom').onChange(updateCamera);
     animate()
 }
 
