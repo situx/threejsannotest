@@ -173,6 +173,7 @@ function initThreeJS(domelement,verts,meshurls) {
 
 			geometryF.close();
 			objects.add(box)
+			allobjects.add(box)
 			scene.add(objects);
 			const rotationFolder = geometryF.addFolder("Rotation");
 			rotationFolder.add(allobjects.rotation, 'x', 0, Math.PI).name("X")
@@ -205,6 +206,7 @@ function initThreeJS(domelement,verts,meshurls) {
     const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe:true } );
     const mesh = new THREE.Mesh( extrudedGeometry, material );
 	annotations.add(mesh)
+	allobjects.add(mesh)
 	scene.add(annotations)
 	addPointMarker(scene,[0.5,0.5,0.5])
     renderer = new THREE.WebGLRenderer( { antialias: false } );
