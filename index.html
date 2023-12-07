@@ -212,6 +212,7 @@ function initThreeJS(domelement,verts,meshurls) {
 	renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( 480, 500 );
     document.getElementById(domelement).appendChild( renderer.domElement );
+	document.getElementById(domelement).appendChild( gui.domElement );
 	document.getElementById(domelement).addEventListener('click', function(event){
 	  var bounds = document.getElementById(domelement).getBoundingClientRect()
 	  console.log(bounds)
