@@ -81,7 +81,7 @@ var meshrefsampleannotations={"#9a51d1e2-c25e-403b-97fc-21f6294d9713": {
 //style="max-width:485px;max-height:500px"
 //wktsampleannotations
 //$(document).ready(function(){initThreeJS('threejs',parseWKTStringToJSON("POLYGON Z ((11.914378496415974 14.386346805085239 4.228275299072266, 7.128430444339905 14.260676340056541 4.228275299072266, 6.809366923512812 19.915864141095675 4.228275299072266, 11.488962055423293 19.915864141095675 4.228275299072266, 11.914378496415974 14.386346805085239 6.769923210144043, 7.128430444339905 14.260676340056541 6.769923210144043, 6.809366923512812 19.915864141095675 6.769923210144043, 11.488962055423293 19.915864141095675 6.769923210144043, 11.914378496415974 14.386346805085239 4.228275299072266))"),["HS1185.gltf"])})
-$(document).ready(function(){initThreeJS('threejs',meshrefsampleannotations,["HS1185.gltf"])})</script> 
+$(document).ready(function(){initThreeJS('threejs',meshrefsampleannotations,true,["HS1185.gltf"])})</script> 
 
 <script>
 const canvas = document.getElementById('number');
@@ -234,7 +234,7 @@ function prepareAnnotationFromJSON(verts,annotations){
 	return annotations
 }
 
-function initThreeJS(domelement,webannotations,meshurls) {
+function initThreeJS(domelement,webannotations,meshref,meshurls) {
     scene = new THREE.Scene();
     minz=Number.MAX_VALUE
     maxz=Number.MIN_VALUE
@@ -255,7 +255,9 @@ function initThreeJS(domelement,webannotations,meshurls) {
 	const lightingFolder = geometryFolder.addFolder("Lighting");
 	const geometryF = geometryFolder.addFolder("Geometry");
 	geometryF.open();
-	annotations=parseWebAnnotations(webannotations,annotations,null)
+	if(!meshref){
+		annotations=parseWebAnnotations(webannotations,annotations,null)
+	}
 	box=null
 	if(meshurls.length>0){
         var loader = new THREE.GLTFLoader();
@@ -274,6 +276,9 @@ function initThreeJS(domelement,webannotations,meshurls) {
 			geometryF.close();
 			objects.add(box)
 			scene.add(objects);
+			if(meshref){
+				annotations=parseWebAnnotations(webannotations,annotations,box)
+			}
 			const rotationFolder = geometryF.addFolder("Rotation");
 			rotationFolder.add(objects.rotation, 'x', 0, Math.PI).name("X").onChange(
 			function(){
