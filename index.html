@@ -138,7 +138,7 @@ function parseWebAnnotations(webannotations,annotations,mesh){
 
 function parseMeshRefToIndex(meshrefString){
 	meshrefString=meshrefString.replaceAll("[","").replaceAll("]","")
-	if("n=" in meshrefString){
+	if(meshrefString.includes("n=")){
 		return meshrefString.replace("n=","")
 	}
 	return null
