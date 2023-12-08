@@ -351,7 +351,7 @@ function initThreeJS(domelement,webannotations,meshurls) {
 	  mouse.x = ( (event.clientX - bounds.left) / document.getElementById(domelement).clientWidth ) * 2 - 1;
 	  mouse.y = - ( (event.clientY - bounds.top) / document.getElementById(domelement).clientHeight ) * 2 + 1;
 	  raycaster.setFromCamera( mouse, camera );
-	  var intersects = raycaster.intersectObjects(scene.children, true);
+	  var intersects = raycaster.intersectObjects(annotations, true);
 	  if (intersects.length > 0) {
 	     //console.log(mesh)
 		 console.log(scene.children)
