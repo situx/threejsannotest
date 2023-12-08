@@ -129,7 +129,7 @@ function parseWebAnnotations(webannotations,annotations,mesh){
 					console.log(res)
 					lookeduppoint=lookUpPointFromIndex(mesh,parseInt(res))
 					if(lookeduppoint!=null){
-						addPointMarker(lookeduppoint,annotations)
+						annotations=addPointMarker(lookeduppoint,annotations)
 					}
 				}
 			}
