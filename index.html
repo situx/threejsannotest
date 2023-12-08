@@ -242,9 +242,9 @@ function initThreeJS(domelement,webannotations,meshurls) {
 	vertarray=[]
 	annotations=new THREE.Group();
 	objects=new THREE.Group();
-    console.log(verts)
+    console.log(webannotations)
     first=true
-	annotations=prepareAnnotationFromJSON(verts,annotations)  
+	//annotations=prepareAnnotationFromJSON(verts,annotations)  
 	const gui = new dat.GUI({autoPlace: true})
 	gui.domElement.id="gui"
 	const geometryFolder = gui.addFolder("Mesh");
