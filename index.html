@@ -357,13 +357,13 @@ function initThreeJS(domelement,webannotations,meshurls) {
 	  }
 	}, false)
 	centervec=new THREE.Vector3()
-    annotations.children[0].boundingBox.getCenter(centervec)
+    //annotations.children[0].boundingBox.getCenter(centervec)
     console.log(centervec)
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
-    controls.target.set( centervec.x,centervec.y,centervec.z );
-    camera.position.x= centervec.x
-    camera.position.y= centervec.y
-    camera.position.z = centervec.z+30;
+    controls.target.set( 0,0,0 );
+    camera.position.x= 0
+    camera.position.y= 0
+    camera.position.z = 30;
     controls.maxDistance= Math.max(maxx, maxy, maxz)*5
     controls.update();
 	const updateCamera = () => {
