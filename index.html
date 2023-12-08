@@ -223,9 +223,6 @@ function prepareAnnotationFromJSON(verts,annotations){
     }
 	var extrudedGeometry = new THREE.ExtrudeGeometry(svgShape, {depth: maxz-minz, bevelEnabled: false});
     extrudedGeometry.computeBoundingBox()
-    centervec=new THREE.Vector3()
-    extrudedGeometry.boundingBox.getCenter(centervec)
-    console.log(centervec)
     const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe:true } );
     const mesh = new THREE.Mesh( extrudedGeometry, material );
 	annotations.add(mesh)
@@ -359,6 +356,9 @@ function initThreeJS(domelement,webannotations,meshurls) {
 		 console.log("INTERSECTIONNNNNN")
 	  }
 	}, false)
+	centervec=new THREE.Vector3()
+    annotations.children[0].boundingBox.getCenter(centervec)
+    console.log(centervec)
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
     controls.target.set( centervec.x,centervec.y,centervec.z );
     camera.position.x= centervec.x
