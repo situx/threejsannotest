@@ -353,7 +353,7 @@ function initThreeJS(domelement,webannotations,meshurls) {
 	  raycaster.setFromCamera( mouse, camera );
 	  var intersects = raycaster.intersectObjects(scene.children, true);
 	  if (intersects.length > 0) {
-	     console.log(mesh)
+	     //console.log(mesh)
 		 console.log(scene.children)
 		 document.getElementById("annocontent").innerHTML="Clicked on point in annotation: "+mouse.x+" "+mouse.y
 		 console.log("INTERSECTIONNNNNN")
