@@ -113,9 +113,9 @@ function parseWebAnnotations(webannotations,annotations,mesh){
 		if("target" in webannotations[anno]){
 			if("selector" in webannotations[anno]["target"] && webannotations[anno]["target"]["selector"]["type"]=="WktSelector"){
 				if("POINT" in webannotations[anno]["target"]["selector"]["value"]){
-					addPointMarker(parseWKTStringToJSON(webannotations[anno]["target"]["selector"]["value"])[0],annotations)
+					annotations=addPointMarker(parseWKTStringToJSON(webannotations[anno]["target"]["selector"]["value"])[0],annotations)
 				}else{
-					prepareAnnotationFromJSON(parseWKTStringToJSON(webannotations[anno]["target"]["selector"]["value"]),annotations)
+					annotations=prepareAnnotationFromJSON(parseWKTStringToJSON(webannotations[anno]["target"]["selector"]["value"]),annotations)
 				}			
 			}else if("selector" in webannotations[anno]["target"] && webannotations[anno]["target"]["selector"]["type"]=="MeshRefSelector"){
 				theindex=parseMeshRefToIndex(webannotations[anno]["target"]["selector"]["value"])
@@ -129,6 +129,7 @@ function parseWebAnnotations(webannotations,annotations,mesh){
 			}
 		}
 	}
+	return annotations
 }
 
 function parseMeshRefToIndex(meshrefString){
