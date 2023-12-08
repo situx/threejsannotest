@@ -282,9 +282,9 @@ function initThreeJS(domelement,webannotations,meshref,meshurls) {
 			geometryF.close();
 			objects.add(box)
 			scene.add(objects);
-			if(meshref){
-				annotations=parseWebAnnotations(webannotations,annotations,box)
-			}
+			//if(meshref){
+			//	annotations=parseWebAnnotations(webannotations,annotations,box)
+			//}
 			const rotationFolder = geometryF.addFolder("Rotation");
 			rotationFolder.add(objects.rotation, 'x', 0, Math.PI).name("X").onChange(
 			function(){
