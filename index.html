@@ -125,7 +125,9 @@ function parseWebAnnotations(webannotations,annotations,mesh){
 				theindex=parseMeshRefToIndex(webannotations[anno]["target"]["selector"]["value"])
 				if(theindex!=null){
 					theindex=webannotations[anno]["target"]["selector"]["value"]
-					lookeduppoint=lookUpPointFromIndex(mesh,parseInt(parseMeshRefToIndex(theindex)))
+					res=parseMeshRefToIndex(theindex)
+					console.log(theindex)
+					lookeduppoint=lookUpPointFromIndex(mesh,parseInt(res))
 					if(lookeduppoint!=null){
 						addPointMarker(lookeduppoint,annotations)
 					}
