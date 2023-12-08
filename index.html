@@ -114,6 +114,7 @@ function parseWebAnnotations(webannotations,annotations,mesh){
 		if("target" in webannotations[anno]){
 			console.log(webannotations[anno])
 			if("selector" in webannotations[anno]["target"] && webannotations[anno]["target"]["selector"]["type"]=="WKTSelector"){
+				console.log(webannotations[anno]["target"]["selector"])
 				if("POINT" in webannotations[anno]["target"]["selector"]["value"]){
 					annotations=addPointMarker(parseWKTStringToJSON(webannotations[anno]["target"]["selector"]["value"])[0],annotations)
 				}else{
