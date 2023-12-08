@@ -148,7 +148,9 @@ function lookUpPointFromIndex(mesh,theindex){
 	console.log(mesh)
 	console.log(mesh["children"][0]["geometry"]["attributes"]["position"]["array"])
 	indexlength=mesh["children"][0]["geometry"]["attributes"]["position"]["array"].length/3
+	console.log(indexlength)
 	if(theindex<indexlength){
+		console.log({"x":mesh["geometry"]["attributes"]["position"]["array"][theindex*3],"y":mesh["geometry"]["attributes"]["position"]["array"][(theindex*3)+1],"z":mesh["geometry"]["attributes"]["position"]["array"][(theindex*3)+2]})
 		return {"x":mesh["geometry"]["attributes"]["position"]["array"][theindex*3],"y":mesh["geometry"]["attributes"]["position"]["array"][(theindex*3)+1],"z":mesh["geometry"]["attributes"]["position"]["array"][(theindex*3)+2]}
 	}
 	return null
